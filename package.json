@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "verifact",
   "private": true,
   "scripts": {
     "build": "turbo build",
