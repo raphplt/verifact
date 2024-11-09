@@ -1,41 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CreateOpenaiDto } from './dto/create-openai.dto';
-import { UpdateOpenaiDto } from './dto/update-openai.dto';
 import OpenAI from 'openai';
+import { ScrapingService } from 'src/scraping/scraping.service';
 
 @Injectable()
 export class OpenaiService {
   private openai: OpenAI;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private scrapingService: ScrapingService,
+  ) {
     const apiKey = this.configService.get<string>('OPENAI_API_KEY');
     this.openai = new OpenAI({ apiKey, maxRetries: 5 });
   }
 
-  create(createOpenaiDto: CreateOpenaiDto) {
-    return 'This action adds a new openai';
-  }
-
-  findAll() {
-    return `This action returns all openai`;
-  }
-
-  update(id: number, updateOpenaiDto: UpdateOpenaiDto) {
-    return `This action updates a #${id} openai`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} openai`;
-  }
-
-  async testOpenAI() {
+  async testOpenAI(input: string) {
+    const resumePrompt = this.configService.get<string>('OPENAI_PROMPT');
     try {
+      const scrapedData = await this.scrapingService.scrapePage(input);
+      const prompt = resumePrompt + scrapedData.title + scrapedData.content;
+
       const completion = await this.openai.chat.completions.create({
         model: 'gpt-4o',
-        messages: [{ role: 'user', content: 'Ecris moi un poème d amour' }],
+        messages: [
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
       });
-      return completion;
+
+      const responseContent = completion.choices[0].message.content;
+
+      // Utiliser une expression régulière pour extraire le contenu JSON
+      const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error("Le contenu JSON n'a pas été trouvé dans la réponse.");
+      }
     } catch (error) {
       console.error(error);
       return error;
