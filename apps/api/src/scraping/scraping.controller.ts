@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ScrapingService } from './scraping.service';
-import { ScrapePageDto } from './dto/scrape-page.dto';
+import { ScrapePageDto } from './entities/dto/scrape-page.dto';
 
 @Controller('scraping')
 export class ScrapingController {

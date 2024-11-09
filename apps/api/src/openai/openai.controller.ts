@@ -5,8 +5,8 @@ import { OpenaiService } from './openai.service';
 export class OpenaiController {
   constructor(private readonly openaiService: OpenaiService) {}
 
-  @Post('test')
-  testOpenAI(@Body('input') input: string) {
-    return this.openaiService.testOpenAI(input);
+  @Post('completion')
+  testOpenAI(@Body('url') input: string) {
+    return this.openaiService.getOpenAICompletion(input);
   }
 }

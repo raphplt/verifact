@@ -14,11 +14,10 @@ export class OpenaiService {
     const apiKey = this.configService.get<string>('OPENAI_API_KEY');
     this.openai = new OpenAI({ apiKey, maxRetries: 5 });
   }
-
-  async testOpenAI(input: string) {
+  async getOpenAICompletion(url: string) {
     const resumePrompt = this.configService.get<string>('OPENAI_PROMPT');
     try {
-      const scrapedData = await this.scrapingService.scrapePage(input);
+      const scrapedData = await this.scrapingService.scrapePage(url);
       const prompt = resumePrompt + scrapedData.title + scrapedData.content;
 
       const completion = await this.openai.chat.completions.create({
