@@ -6,7 +6,7 @@ export class OpenaiController {
   constructor(private readonly openaiService: OpenaiService) {}
 
   @Post('completion')
-  testOpenAI(@Body('url') input: string) {
-    return this.openaiService.getOpenAICompletion(input);
+  testOpenAI(@Body('url') url: string, @Body('metadata') metadata: any) {
+    return this.openaiService.getOpenAICompletion(url, metadata);
   }
 }

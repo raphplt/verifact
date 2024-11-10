@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiModule } from './openai/openai.module';
 import { ScrapingModule } from './scraping/scraping.module';
+import { ArticleModule } from './article/article.module';
+import { MetadataModule } from './metadata/metadata.module';
+import { KeywordModule } from './keyword/keyword.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { ScrapingModule } from './scraping/scraping.module';
       }),
       inject: [ConfigService],
     }),
+    ArticleModule,
+    MetadataModule,
+    KeywordModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { ScrapingService } from './scraping.service';
 import { ScrapePageDto } from './entities/dto/scrape-page.dto';
 
@@ -8,6 +8,13 @@ export class ScrapingController {
 
   @Post('scrape')
   async scrapePage(@Body() scrapePageDto: ScrapePageDto) {
-    return await this.scrapingService.scrapePage(scrapePageDto.url);
+    try {
+      if (!scrapePageDto.url) {
+        throw new BadRequestException('URL is required');
+      }
+      return await this.scrapingService.scrapePage(scrapePageDto.url);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }
