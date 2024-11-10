@@ -29,5 +29,26 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [nextui()],
+	plugins: [
+		nextui({
+			theme: {
+				extend: {
+					colors: {
+						primary: {
+							DEFAULT: "#19323C",
+						},
+						secondary: {
+							DEFAULT: "#8C5E58",
+						},
+						warning: {
+							DEFAULT: "#FFB800",
+						},
+						danger: {
+							DEFAULT: "#FF4D4F",
+						},
+					},
+				},
+			},
+		}),
+	],
 };
