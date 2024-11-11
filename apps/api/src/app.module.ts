@@ -8,6 +8,7 @@ import { ScrapingModule } from './scraping/scraping.module';
 import { ArticleModule } from './article/article.module';
 import { MetadataModule } from './metadata/metadata.module';
 import { KeywordModule } from './keyword/keyword.module';
+import { CredibilityServiceModule } from './credibility-service/credibility-service.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { KeywordModule } from './keyword/keyword.module';
     ArticleModule,
     MetadataModule,
     KeywordModule,
+    CredibilityServiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
